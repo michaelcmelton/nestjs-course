@@ -1,13 +1,14 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
 } from '@nestjs/common';
-import { identity } from 'rxjs';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -25,5 +26,15 @@ export class CoffeesController {
   @HttpCode(HttpStatus.GONE)
   create(@Body() body) {
     return body;
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() body) {
+    return `This action updates #${id} coffee.`;
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return `This action removes #${id} coffee.`;
   }
 }
