@@ -6,6 +6,7 @@ import { CoffeesController } from './coffees.controller';
 import { CoffeesService } from './coffees.service';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
+import { Connection } from 'typeorm';
 
 @Injectable()
 export class CoffeeBrandsFactory {
@@ -21,9 +22,12 @@ export class CoffeeBrandsFactory {
     CoffeeBrandsFactory,
     {
       provide: COFFEE_BRANDS,
-      useFactory: (brandsFactory: CoffeeBrandsFactory) =>
-        brandsFactory.create(),
-      inject: [CoffeeBrandsFactory],
+      useFactory: async (connection: Connection): Promise<Array<string>> => {
+        /*const coffeeBrands = await connection.query('SELECT *...') */
+        const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
+        return coffeeBrands;
+      },
+      inject: [Connection],
     },
   ],
   exports: [CoffeesService],
