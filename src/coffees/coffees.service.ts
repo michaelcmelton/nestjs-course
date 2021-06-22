@@ -1,3 +1,4 @@
+import { Scope } from '@nestjs/common';
 import {
   HttpException,
   HttpStatus,
@@ -15,7 +16,7 @@ import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class CoffeesService {
   constructor(
     @InjectRepository(Coffee)
