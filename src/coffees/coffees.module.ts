@@ -1,30 +1,15 @@
-import { Injectable, Module, Scope } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Event } from 'src/events/entities/event.entity';
-import { COFFEE_BRANDS } from './coffees.constants';
 import { CoffeesController } from './coffees.controller';
 import { CoffeesService } from './coffees.service';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
-
-@Injectable()
-export class CoffeeBrandsFactory {
-  create() {
-    return ['buddy brew', 'nescafe'];
-  }
-}
+import { ConfigModule } from '@nestjs/config';
 @Module({
-  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
+  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event]), ConfigModule],
   controllers: [CoffeesController],
-  providers: [
-    CoffeesService,
-    CoffeeBrandsFactory,
-    {
-      provide: COFFEE_BRANDS,
-      useFactory: () => ['buddy brew', 'nescafse'],
-      scope: Scope.DEFAULT,
-    },
-  ],
+  providers: [CoffeesService],
   exports: [CoffeesService],
 })
 export class CoffeesModule {}

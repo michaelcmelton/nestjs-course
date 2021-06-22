@@ -7,11 +7,11 @@ import {
   NotFoundException,
   Query,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Event } from 'src/events/entities/event.entity';
 import { Connection, Repository } from 'typeorm';
-import { COFFEE_BRANDS } from './coffees.constants';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
@@ -24,9 +24,10 @@ export class CoffeesService {
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
     private readonly conenction: Connection,
-    @Inject(COFFEE_BRANDS) coffeeBrands: Array<string>,
+    private readonly configService: ConfigService,
   ) {
-    console.log(coffeeBrands);
+    const databaseHost = this.configService.get<string>('DATABASE_HOST');
+    console.log(databaseHost);
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
